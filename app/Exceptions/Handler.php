@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Exceptions\InvalidEntrySlugException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -32,6 +33,8 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        //
+        $this->renderable(function (InvalidEntrySlugException $e, $request) {
+            return $e->render();
+        });
     }
 }

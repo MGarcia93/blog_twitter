@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Entry;
+use App\Exceptions\InvalidEntrySlugException;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -46,6 +48,18 @@ class RouteServiceProvider extends ServiceProvider
                 ->middleware('api')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/api.php'));
+        });
+
+        Route::bind('entryBySlug', function ($value) {
+            $parts= explode("-",$value);
+            $id=end($parts);
+            $entry= Entry::findOrFail($id);
+            if($entry->slug.'-'.$entry->id===$value){
+                return $entry;
+            }else{
+                throw new InvalidEntrySlugException($entry);
+            }
+
         });
     }
 

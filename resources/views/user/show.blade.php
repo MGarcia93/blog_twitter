@@ -20,7 +20,7 @@
                     <ul>
                         @foreach ($entries as $entry)
                         <li>
-                            <a href="{{url('entries/'.$entry->id)}}">{{$entry->title}}</a>
+                            <a href="{{url($entry->getUrl())}}">{{$entry->title}}</a>
                         </li>
                         @endforeach
                     </ul>
